@@ -1,0 +1,14 @@
+# Sitemap
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /settings/
+Disallow: /profile/
+Disallow: /journal/
+Disallow: /favorites/
+Disallow: /sign-in/
+Disallow: /sign-up/
+
+Sitemap: https://mystictarot.ai/sitemap.xml

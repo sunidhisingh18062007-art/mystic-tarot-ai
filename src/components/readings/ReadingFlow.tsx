@@ -75,7 +75,13 @@ export function ReadingFlow({ spread }: ReadingFlowProps) {
       if (res.ok) {
         const json = await res.json();
         if (json.success && json.data) {
-          setInterpretation(json.data.interpretation);
+          // Look for the interpretation either at root level (new) or on the data object (old fallback)
+          const interpData = json.interpretation || json.data.interpretation;
+          if (interpData) {
+            setInterpretation(interpData);
+          } else {
+            setInterpretation(getFallbackInterpretation(drawnCards));
+          }
           setReadingId(json.data.id);
         } else {
           setInterpretation(getFallbackInterpretation(drawnCards));

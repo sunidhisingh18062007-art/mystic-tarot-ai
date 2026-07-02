@@ -3,6 +3,8 @@ import { requireAuth } from "@/lib/auth/helpers";
 import { getUserReadings, createReading } from "@/lib/db/queries";
 import { createReadingSchema, paginationSchema } from "@/lib/validation/schemas";
 import { rateLimit } from "@/lib/rate-limit";
+import { interpretReading } from "@/lib/ai/interpreter";
+import type { DrawnCard } from "@/types/tarot";
 
 /**
  * GET /api/readings — List user's readings with pagination
@@ -53,9 +55,48 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const validated = createReadingSchema.parse(body);
 
+    // Format cards for the AI
+    const drawnCards: DrawnCard[] = validated.cards.map((c: any) => ({
+      card: {
+        id: c.cardId,
+        name: c.cardName,
+        arcana: "major", // Mocked, the AI just needs the meaning
+        suit: "wands", 
+        number: 1,
+        image: "",
+        description: "",
+        keywords: c.keywords || [],
+        uprightMeaning: c.uprightMeaning || "",
+        reversedMeaning: c.reversedMeaning || "",
+        loveMeaning: "",
+        careerMeaning: "",
+        financeMeaning: "",
+        healthMeaning: "",
+        element: "Fire",
+        planet: "Sun",
+        astrology: "Leo",
+        numerology: "1"
+      },
+      position: {
+        name: c.position,
+        meaning: c.positionMeaning,
+        index: 0
+      },
+      isReversed: c.isReversed
+    }));
+
+    // Generate AI Interpretation
+    const interpretation = await interpretReading(
+      drawnCards,
+      validated.type as any,
+      validated.question,
+      user.firstName || undefined
+    );
+
     const reading = await createReading(user.id, {
       ...validated,
       cards: validated.cards,
+      ...interpretation // Spread the interpretation fields into the reading DB record!
     });
 
     return NextResponse.json({ success: true, data: reading }, { status: 201 });

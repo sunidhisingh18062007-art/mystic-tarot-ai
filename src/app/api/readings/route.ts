@@ -99,7 +99,7 @@ export async function POST(request: NextRequest) {
       ...interpretation // Spread the interpretation fields into the reading DB record!
     });
 
-    return NextResponse.json({ success: true, data: reading }, { status: 201 });
+    return NextResponse.json({ success: true, data: reading, interpretation }, { status: 201 });
   } catch (error) {
     if (error instanceof Error && error.message === "UNAUTHORIZED") {
       return NextResponse.json({ success: false, error: "Unauthorized" }, { status: 401 });

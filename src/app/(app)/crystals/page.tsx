@@ -59,8 +59,8 @@ export default function CrystalsPage() {
 
       {detail && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-50" onClick={() => setSelected(null)} />
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="fixed inset-x-4 top-[10%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[500px] glass rounded-2xl z-50 p-6">
+          <div className="fixed inset-0 bg-black/60 z-50 backdrop-blur-sm" onClick={() => setSelected(null)} />
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="fixed inset-x-4 top-[10%] md:inset-x-auto md:left-1/2 md:-translate-x-1/2 md:w-[500px] bg-background/95 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-2xl z-50 p-6">
             <button onClick={() => setSelected(null)} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground">✕</button>
             <div className="text-center mb-4">
               <span className="text-5xl">{detail.emoji}</span>

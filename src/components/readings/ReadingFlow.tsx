@@ -73,9 +73,13 @@ export function ReadingFlow({ spread }: ReadingFlowProps) {
       });
 
       if (res.ok) {
-        const data = await res.json();
-        setInterpretation(data.interpretation);
-        setReadingId(data.id);
+        const json = await res.json();
+        if (json.success && json.data) {
+          setInterpretation(json.data.interpretation);
+          setReadingId(json.data.id);
+        } else {
+          setInterpretation(getFallbackInterpretation(drawnCards));
+        }
       } else {
         // Fallback interpretation
         setInterpretation(getFallbackInterpretation(drawnCards));

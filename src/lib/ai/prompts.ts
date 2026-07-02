@@ -158,14 +158,14 @@ Analyze the cards drawn above and provide a comprehensive tarot reading. Conside
 You MUST respond with ONLY valid JSON in exactly this format (no markdown, no code fences):
 
 {
-  "summary": "A compelling 3-5 sentence overview of the entire reading that captures the main themes and energy. Write as if speaking directly to the querent.",
+  "summary": "A deep, comprehensive, and mystical 8-10 sentence overview of the entire reading that captures the main themes and energy in profound detail. Write as if speaking directly to the querent in a deeply personal reading.",
   "detailedAnalysis": [
     {
       "cardName": "Name of the card",
       "position": "Name of the position",
       "isReversed": true/false,
-      "interpretation": "A rich 3-5 sentence interpretation of this card in this position, considering its orientation and relationship to other cards in the spread.",
-      "advice": "1-2 sentences of specific, actionable advice based on this card's message."
+      "interpretation": "A highly detailed, poetic, and profound 8-10 sentence interpretation of this card in this position. Dive deep into its symbolism, considering its orientation and relationship to other cards in the spread.",
+      "advice": "3-5 sentences of specific, actionable advice based on this card's deep message."
     }
   ],
   "actionSteps": [

@@ -68,13 +68,28 @@ export function TarotCard({ card, isReversed = false, isFlipped = false, onClick
               {isReversed && <span className="text-[10px] text-amber-400 font-medium">REVERSED</span>}
             </div>
 
-            {/* Card image area — gradient placeholder */}
-            <div className="flex-1 w-full my-2 rounded-lg overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-indigo-500/10 to-amber-500/10 flex items-center justify-center">
-                <span className="text-3xl opacity-60">
-                  {card.arcana === "major" ? "🌟" : card.suit === "wands" ? "🔥" : card.suit === "cups" ? "💧" : card.suit === "swords" ? "🌬️" : "🪙"}
-                </span>
-              </div>
+            {/* Card image area */}
+            {/* Card image area */}
+            <div className="flex-1 w-full my-2 rounded-lg overflow-hidden relative bg-black/40">
+              {card.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img 
+                  src={card.image} 
+                  alt={card.name} 
+                  className="absolute inset-0 w-full h-full object-cover opacity-90"
+                  onError={(e) => {
+                    // Fallback to gradient if image is not found locally
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.classList.add('bg-gradient-to-br', 'from-purple-600/20', 'via-indigo-500/10', 'to-amber-500/10');
+                  }}
+                />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-indigo-500/10 to-amber-500/10 flex items-center justify-center">
+                  <span className="text-3xl opacity-60">
+                    {card.arcana === "major" ? "🌟" : card.suit === "wands" ? "🔥" : card.suit === "cups" ? "💧" : card.suit === "swords" ? "🌬️" : "🪙"}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Bottom */}

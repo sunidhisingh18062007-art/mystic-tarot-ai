@@ -54,7 +54,7 @@ export async function createReading(
     confidenceScore?: number;
     moodAnalysis?: string;
     spiritualAdvice?: string;
-    futurePossibilities?: string;
+    futurePossibilities?: string | string[];
   }
 ) {
   const reading = await prisma.reading.create({
@@ -72,7 +72,9 @@ export async function createReading(
       confidenceScore: data.confidenceScore,
       moodAnalysis: data.moodAnalysis,
       spiritualAdvice: data.spiritualAdvice,
-      futurePossibilities: data.futurePossibilities,
+      futurePossibilities: Array.isArray(data.futurePossibilities) 
+        ? data.futurePossibilities.join("\n\n") 
+        : data.futurePossibilities,
     },
   });
 

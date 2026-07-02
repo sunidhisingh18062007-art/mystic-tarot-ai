@@ -161,13 +161,16 @@ function generateFallbackInterpretation(
     const { card, position, isReversed } = dc;
     const meaning = isReversed ? card.reversedMeaning : card.uprightMeaning;
     const orientation = isReversed ? "reversed" : "upright";
+    const kw1 = card.keywords?.[0]?.toLowerCase() || "mystery";
+    const kw2 = card.keywords?.[1]?.toLowerCase() || "fate";
+    const keywordsList = card.keywords?.slice(0, 3).join(", ") || "the unknown";
 
     return {
       cardName: card.name,
       position: position.name,
       isReversed,
-      interpretation: `The ${card.name} appears ${orientation} in the "${position.name}" position. ${meaning} In the context of ${position.meaning.toLowerCase()}, this card suggests that ${isReversed ? "there may be blocked or internalized energy around" : "you are being called to embrace"} the themes of ${card.keywords.slice(0, 3).join(", ")}. The ${card.element} element brings ${card.element === "Fire" ? "passionate, action-oriented" : card.element === "Water" ? "emotional, intuitive" : card.element === "Air" ? "intellectual, communicative" : "practical, material"} energy to this area of your reading.`,
-      advice: `Reflect on how ${card.keywords[0].toLowerCase()} and ${card.keywords[1].toLowerCase()} manifest in your life. ${isReversed ? "Consider what internal blocks might be preventing this energy from flowing freely." : "Lean into this energy and allow it to guide your next steps."}`,
+      interpretation: `The ${card.name} appears ${orientation} in the "${position.name}" position. ${meaning} In the context of ${(position.meaning || "this position").toLowerCase()}, this card suggests that ${isReversed ? "there may be blocked or internalized energy around" : "you are being called to embrace"} the themes of ${keywordsList}. The ${card.element} element brings ${card.element === "Fire" ? "passionate, action-oriented" : card.element === "Water" ? "emotional, intuitive" : card.element === "Air" ? "intellectual, communicative" : "practical, material"} energy to this area of your reading.`,
+      advice: `Reflect on how ${kw1} and ${kw2} manifest in your life. ${isReversed ? "Consider what internal blocks might be preventing this energy from flowing freely." : "Lean into this energy and allow it to guide your next steps."}`,
     };
   });
 

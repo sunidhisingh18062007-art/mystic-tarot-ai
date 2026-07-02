@@ -138,14 +138,14 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
       stripeSubscriptionId: subscription.id,
       plan: "PREMIUM",
       status: statusMap[subscription.status] || "ACTIVE",
-      currentPeriodStart: new Date(subscription.current_period_start * 1000),
-      currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+      currentPeriodStart: new Date((subscription as any).current_period_start * 1000),
+      currentPeriodEnd: new Date((subscription as any).current_period_end * 1000),
       cancelAtPeriodEnd: subscription.cancel_at_period_end,
     },
     update: {
       status: statusMap[subscription.status] || "ACTIVE",
-      currentPeriodStart: new Date(subscription.current_period_start * 1000),
-      currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+      currentPeriodStart: new Date((subscription as any).current_period_start * 1000),
+      currentPeriodEnd: new Date((subscription as any).current_period_end * 1000),
       cancelAtPeriodEnd: subscription.cancel_at_period_end,
     },
   });
@@ -175,7 +175,7 @@ async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   await prisma.payment.create({
     data: {
       userId: sub.userId,
-      stripePaymentId: invoice.payment_intent as string,
+      stripePaymentId: (invoice as any).payment_intent as string,
       amount: invoice.amount_paid,
       currency: invoice.currency,
       status: "SUCCEEDED",
@@ -195,7 +195,7 @@ async function handlePaymentFailed(invoice: Stripe.Invoice) {
   await prisma.payment.create({
     data: {
       userId: sub.userId,
-      stripePaymentId: invoice.payment_intent as string,
+      stripePaymentId: (invoice as any).payment_intent as string,
       amount: invoice.amount_due,
       currency: invoice.currency,
       status: "FAILED",

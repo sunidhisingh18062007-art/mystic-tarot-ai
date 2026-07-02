@@ -39,7 +39,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       prisma.comment.count({ where: { postId: post.id } }),
     ]);
 
-    const data = comments.map((c) => ({
+    const data = comments.map((c: any) => ({
       id: c.id,
       content: c.content,
       user: {

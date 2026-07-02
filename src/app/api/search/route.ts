@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
       });
 
       results.push(
-        ...cards.map((c) => ({
+        ...cards.map((c: any) => ({
           type: "card" as const,
           id: c.id,
           title: c.name,
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest) {
       });
 
       results.push(
-        ...posts.map((p) => ({
+        ...posts.map((p: any) => ({
           type: "blog" as const,
           id: p.id,
           title: p.title,

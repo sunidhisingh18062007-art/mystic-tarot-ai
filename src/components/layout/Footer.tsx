@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Sparkles, Github, Twitter, Heart, Mail } from "lucide-react";
+import { Sparkles, Code, MessageSquare, Heart, Mail } from "lucide-react";
 
 const footerLinks = {
   product: [
@@ -54,7 +54,7 @@ export function Footer() {
                 className="p-2 rounded-lg text-muted-foreground hover:text-purple-400 hover:bg-white/5 transition-all"
                 aria-label="Twitter"
               >
-                <Twitter className="w-4 h-4" />
+                <MessageSquare className="w-4 h-4" />
               </a>
               <a
                 href="https://github.com"
@@ -63,7 +63,7 @@ export function Footer() {
                 className="p-2 rounded-lg text-muted-foreground hover:text-purple-400 hover:bg-white/5 transition-all"
                 aria-label="GitHub"
               >
-                <Github className="w-4 h-4" />
+                <Code className="w-4 h-4" />
               </a>
               <a
                 href="mailto:hello@mystictarot.ai"

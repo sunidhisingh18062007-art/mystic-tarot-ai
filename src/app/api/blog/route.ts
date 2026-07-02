@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
 
     const result = await getPublishedPosts(page, limit, category);
 
-    const posts = result.posts.map((post) => ({
+    const posts = result.posts.map((post: any) => ({
       ...post,
       author: {
         name: [post.author.firstName, post.author.lastName].filter(Boolean).join(" ") || "Anonymous",

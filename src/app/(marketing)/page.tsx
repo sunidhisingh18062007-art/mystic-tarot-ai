@@ -11,20 +11,20 @@ import {
 import { useState } from 'react';
 
 // ─── Animation Variants ───────────────────────────────────────
-const fadeUp = {
+const fadeUp: any = {
   hidden: { opacity: 0, y: 30 },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, delay: i * 0.1, ease: 'easeOut' },
+    transition: { duration: 0.7, delay: i * 0.1, ease: 'easeOut' as any },
   }),
 };
 
-const stagger = {
+const stagger: any = {
   visible: { transition: { staggerChildren: 0.12 } },
 };
 
-const scaleIn = {
+const scaleIn: any = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: (i: number = 0) => ({
     opacity: 1,

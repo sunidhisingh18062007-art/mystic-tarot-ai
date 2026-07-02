@@ -96,8 +96,6 @@ export default function RootLayout({
         variables: {
           colorPrimary: "#a855f7",
           colorBackground: "#0a0520",
-          colorInputBackground: "#1a1035",
-          colorInputText: "#f0e6ff",
           borderRadius: "0.75rem",
         },
         elements: {
@@ -112,7 +110,7 @@ export default function RootLayout({
             "bg-white/5 border-white/10 text-foreground",
           footerActionLink: "text-purple-400 hover:text-purple-300",
         },
-      }}
+      } as any}
     >
       <html lang="en" className="dark" suppressHydrationWarning>
         <body

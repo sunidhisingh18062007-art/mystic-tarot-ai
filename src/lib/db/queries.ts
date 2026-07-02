@@ -23,7 +23,7 @@ export async function getUserReadings(
   ]);
 
   return {
-    readings: readings.map((r) => ({
+    readings: readings.map((r: any) => ({
       ...r,
       isFavorite: r.favorites.length > 0,
     })),
@@ -176,14 +176,12 @@ export async function toggleFavorite(userId: string, readingId: string) {
   const existing = await prisma.favorite.findUnique({
     where: { userId_readingId: { userId, readingId } },
   });
-
   if (existing) {
     await prisma.favorite.delete({ where: { id: existing.id } });
-    return { isFavorite: false };
+    return false;
   }
-
   await prisma.favorite.create({ data: { userId, readingId } });
-  return { isFavorite: true };
+  return true;
 }
 
 // ============================================

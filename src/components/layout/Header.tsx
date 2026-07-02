@@ -9,7 +9,7 @@ import {
   LayoutDashboard, BookOpen, Heart, Settings,
   CreditCard, Search
 } from "lucide-react";
-import { useUser, useClerk, SignedIn, SignedOut } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -83,97 +83,101 @@ export function Header() {
               <Search className="w-5 h-5" />
             </button>
 
-            <SignedOut>
-              <Link
-                href="/sign-in"
-                className="hidden sm:inline-flex px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/sign-up"
-                className="px-4 py-2 text-sm font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg transition-all duration-200 shadow-lg shadow-purple-500/20"
-              >
-                Get Started
-              </Link>
-            </SignedOut>
-
-            <SignedIn>
-              <Link
-                href="/daily"
-                className="hidden sm:inline-flex px-3 py-2 text-sm font-medium text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 rounded-lg transition-all"
-              >
-                ✨ Daily Card
-              </Link>
-              {/* User menu */}
-              <div className="relative">
-                <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-white/5 transition-colors"
-                  aria-label="User menu"
+            {!user && (
+              <>
+                <Link
+                  href="/sign-in"
+                  className="hidden sm:inline-flex px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
-                  {user?.imageUrl ? (
-                    <img
-                      src={user.imageUrl}
-                      alt={user.fullName || "User"}
-                      className="w-8 h-8 rounded-full border border-purple-500/30"
-                    />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center">
-                      <User className="w-4 h-4 text-purple-300" />
-                    </div>
-                  )}
-                </button>
-                <AnimatePresence>
-                  {userMenuOpen && (
-                    <>
-                      <div
-                        className="fixed inset-0 z-40"
-                        onClick={() => setUserMenuOpen(false)}
+                  Sign In
+                </Link>
+                <Link
+                  href="/sign-up"
+                  className="px-4 py-2 text-sm font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg transition-all duration-200 shadow-lg shadow-purple-500/20"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
+
+            {user && (
+              <>
+                <Link
+                  href="/daily"
+                  className="hidden sm:inline-flex px-3 py-2 text-sm font-medium text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 rounded-lg transition-all"
+                >
+                  ✨ Daily Card
+                </Link>
+                {/* User menu */}
+                <div className="relative">
+                  <button
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-white/5 transition-colors"
+                    aria-label="User menu"
+                  >
+                    {user?.imageUrl ? (
+                      <img
+                        src={user.imageUrl}
+                        alt={user.fullName || "User"}
+                        className="w-8 h-8 rounded-full border border-purple-500/30"
                       />
-                      <motion.div
-                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute right-0 mt-2 w-56 glass rounded-xl overflow-hidden z-50 border border-white/10 shadow-xl shadow-black/20"
-                      >
-                        <div className="p-3 border-b border-white/5">
-                          <p className="text-sm font-medium text-foreground truncate">
-                            {user?.fullName || user?.username || "User"}
-                          </p>
-                          <p className="text-xs text-muted-foreground truncate">
-                            {user?.primaryEmailAddress?.emailAddress}
-                          </p>
-                        </div>
-                        <div className="p-1">
-                          {userMenuItems.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              onClick={() => setUserMenuOpen(false)}
-                              className="flex items-center gap-3 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-lg transition-colors"
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center">
+                        <User className="w-4 h-4 text-purple-300" />
+                      </div>
+                    )}
+                  </button>
+                  <AnimatePresence>
+                    {userMenuOpen && (
+                      <>
+                        <div
+                          className="fixed inset-0 z-40"
+                          onClick={() => setUserMenuOpen(false)}
+                        />
+                        <motion.div
+                          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                          transition={{ duration: 0.15 }}
+                          className="absolute right-0 mt-2 w-56 glass rounded-xl overflow-hidden z-50 border border-white/10 shadow-xl shadow-black/20"
+                        >
+                          <div className="p-3 border-b border-white/5">
+                            <p className="text-sm font-medium text-foreground truncate">
+                              {user?.fullName || user?.username || "User"}
+                            </p>
+                            <p className="text-xs text-muted-foreground truncate">
+                              {user?.primaryEmailAddress?.emailAddress}
+                            </p>
+                          </div>
+                          <div className="p-1">
+                            {userMenuItems.map((item) => (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                onClick={() => setUserMenuOpen(false)}
+                                className="flex items-center gap-3 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 rounded-lg transition-colors"
+                              >
+                                <item.icon className="w-4 h-4" />
+                                {item.label}
+                              </Link>
+                            ))}
+                          </div>
+                          <div className="p-1 border-t border-white/5">
+                            <button
+                              onClick={() => signOut()}
+                              className="flex items-center gap-3 w-full px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
                             >
-                              <item.icon className="w-4 h-4" />
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                        <div className="p-1 border-t border-white/5">
-                          <button
-                            onClick={() => signOut()}
-                            className="flex items-center gap-3 w-full px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
-                          >
-                            <LogOut className="w-4 h-4" />
-                            Sign Out
-                          </button>
-                        </div>
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
-              </div>
-            </SignedIn>
+                              <LogOut className="w-4 h-4" />
+                              Sign Out
+                            </button>
+                          </div>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </>
+            )}
 
             {/* Mobile menu button */}
             <button
@@ -212,7 +216,7 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
-              <SignedOut>
+              {!user && (
                 <div className="pt-3 border-t border-white/5 space-y-2">
                   <Link
                     href="/sign-in"
@@ -229,8 +233,8 @@ export function Header() {
                     Get Started Free
                   </Link>
                 </div>
-              </SignedOut>
-              <SignedIn>
+              )}
+              {user && (
                 <div className="pt-3 border-t border-white/5 space-y-1">
                   {userMenuItems.map((item) => (
                     <Link
@@ -244,7 +248,7 @@ export function Header() {
                     </Link>
                   ))}
                 </div>
-              </SignedIn>
+              )}
             </nav>
           </motion.div>
         )}
